@@ -65,4 +65,4 @@ To create a similar setup:
 
 ###### [Schedule A Meeting](https://calendly.com/davidsheinbeindev/intro)
 
-For any questions, please contact [David Sheinbein](mailto:Davidsheinbeindev@gmail.com).
+For any questions, please contact [Davidsheinbeindev@gmail.com](mailto:Davidsheinbeindev@gmail.com).
