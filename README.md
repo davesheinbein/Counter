@@ -1,4 +1,4 @@
-# Counter Repository
+# Counter
 
 This repository contains automated workflows that increment counters daily, weekly, monthly, and yearly using GitHub Actions. Each counter is stored in a separate file and is updated automatically based on the specified schedule.
 
@@ -14,8 +14,10 @@ This repository contains automated workflows that increment counters daily, week
 The following GitHub Actions workflows handle automated increments:
 
 1. **Daily Counter Increment**:
+
    - Triggered daily at midnight UTC.
    - Located in `.github/workflows/daily_increment.yml`.
+
 2. **Weekly Counter Increment**:
 
    - Triggered every Sunday at midnight UTC.
@@ -27,6 +29,7 @@ The following GitHub Actions workflows handle automated increments:
    - Located in `.github/workflows/monthly_increment.yml`.
 
 4. **Yearly Counter Increment**:
+
    - Triggered on January 1st at midnight UTC.
    - Located in `.github/workflows/yearly_increment.yml`.
 
@@ -47,7 +50,10 @@ In addition to their scheduled runs, each workflow can be triggered manually via
 
 To create a similar setup:
 
-1. Clone this repository.
+1. Clone this repository by running:
+   ```bash
+   git clone https://github.com/davesheinbein/Counter.git
+   ```
 2. Ensure the GitHub Actions workflows are located in `.github/workflows/`.
 3. Confirm that each `.yml` file has a `GITHUB_TOKEN` available for authentication in the repository settings.
 
@@ -55,7 +61,7 @@ To create a similar setup:
 
 #### 📫 How to reach me:
 
-###### [(310)-628-5770](tel:310-628-5770) | [Davidsheinbeindev@gmail.com](mailto:davidsheinbeindev@gmail.com) | [LinkedIn](www.linkedin.com/in/david-sheinbein/)
+###### [(310)-628-5770](tel:310-628-5770) | [Davidsheinbeindev@gmail.com](mailto:davidsheinbeindev@gmail.com) | [LinkedIn](https://www.linkedin.com/in/david-sheinbein/)
 
 ###### [Schedule A Meeting](https://calendly.com/davidsheinbeindev/intro)
 
