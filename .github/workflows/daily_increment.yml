@@ -1,0 +1,37 @@
+name: Daily Counter Increment
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight UTC every day
+  workflow_dispatch:      # Allows manual trigger of the workflow
+
+jobs:
+  increment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Increment Counter
+        id: increment_step
+        run: |
+          # Read the current count from counter.txt
+          count=$(cat counter.txt)
+          # Increment the count
+          count=$((count + 1))
+          # Write the new count back to counter.txt
+          echo "$count" > counter.txt
+
+      - name: Commit and push changes
+        run: |
+          git add counter.txt
+          git commit -m "Increment counter to $count"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
