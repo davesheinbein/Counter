@@ -1,0 +1,40 @@
+# Workflow name shown in the GitHub Actions UI
+name: Monthly Counter Increment
+
+# Trigger the workflow automatically and manually
+on:
+  # Schedule the workflow to run on the first day of each month at midnight UTC
+  schedule:
+    - cron: '0 0 1 * *'  # Runs on the 1st day of every month at midnight UTC
+  workflow_dispatch:  # Allows manual trigger of the workflow
+
+jobs:
+  increment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Pull latest changes
+        run: |
+          git pull origin main
+
+      - name: Increment Monthly Counter
+        run: |
+          count=$(cat counter_monthly.txt)
+          count=$((count + 1))
+          echo "$count" > counter_monthly.txt
+
+      - name: Commit and push changes
+        run: |
+          git add counter_monthly.txt
+          git commit -m "Increment monthly counter to $count"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
