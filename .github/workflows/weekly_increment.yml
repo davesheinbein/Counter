@@ -1,0 +1,40 @@
+# Workflow name shown in the GitHub Actions UI
+name: Weekly Counter Increment
+
+# Trigger the workflow automatically and manually
+on:
+  # Schedule the workflow to run weekly on Sunday at midnight UTC
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight UTC
+  workflow_dispatch:  # Allows manual trigger of the workflow
+
+jobs:
+  increment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Pull latest changes
+        run: |
+          git pull origin main
+
+      - name: Increment Weekly Counter
+        run: |
+          count=$(cat counter_weekly.txt)
+          count=$((count + 1))
+          echo "$count" > counter_weekly.txt
+
+      - name: Commit and push changes
+        run: |
+          git add counter_weekly.txt
+          git commit -m "Increment weekly counter to $count"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
