@@ -1,4 +1,4 @@
-# Counter
+# Counter (Github Actions Study)
 
 This repository contains automated workflows that increment counters daily, weekly, monthly, and yearly using GitHub Actions. Each counter is stored in a separate file and is updated automatically based on the specified schedule.
 
