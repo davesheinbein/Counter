@@ -1,0 +1,40 @@
+# Workflow name shown in the GitHub Actions UI
+name: Yearly Counter Increment
+
+# Trigger the workflow automatically and manually
+on:
+  # Schedule the workflow to run on January 1st at midnight UTC every year
+  schedule:
+    - cron: '0 0 1 1 *'  # Runs on January 1st at midnight UTC
+  workflow_dispatch:  # Allows manual trigger of the workflow
+
+jobs:
+  increment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Pull latest changes
+        run: |
+          git pull origin main
+
+      - name: Increment Yearly Counter
+        run: |
+          count=$(cat counter_yearly.txt)
+          count=$((count + 1))
+          echo "$count" > counter_yearly.txt
+
+      - name: Commit and push changes
+        run: |
+          git add counter_yearly.txt
+          git commit -m "Increment yearly counter to $count"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
