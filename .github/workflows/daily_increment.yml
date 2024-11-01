@@ -1,37 +1,57 @@
+# Workflow name shown in the GitHub Actions UI
 name: Daily Counter Increment
 
+# Trigger the workflow automatically and manually
 on:
+  # Schedule the workflow to run daily at midnight UTC
   schedule:
-    - cron: '0 0 * * *'  # Runs at midnight UTC every day
-  workflow_dispatch:      # Allows manual trigger of the workflow
+    - cron: '0 0 * * *' # Runs at midnight UTC every day
+  # Allow manual triggering of the workflow
+  workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
+  # Define a job named "increment"
   increment:
+    # Specify the environment to run the job
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository so that files are accessible
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Set up Git configuration for commits made by the GitHub Actions bot
       - name: Set up Git
         run: |
+          # Set the Git username and email for the commit
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Increment Counter
-        id: increment_step
+      # Step 3: Pull the latest changes from the main branch to keep the repo up-to-date
+      - name: Pull latest changes
         run: |
-          # Read the current count from counter.txt
-          count=$(cat counter.txt)
-          # Increment the count
-          count=$((count + 1))
-          # Write the new count back to counter.txt
-          echo "$count" > counter.txt
+          git pull origin main  # Replace 'main' with your branch name if different
 
+      # Step 4: Increment the counter in counter_daily.txt by 1
+      - name: Increment Counter
+        id: increment_step # Set an ID for referencing this step if needed
+        run: |
+          # Read the current count from counter_daily.txt
+          count=$(cat counter_daily.txt)
+          # Increment the count by 1
+          count=$((count + 1))
+          # Write the updated count back to counter_daily.txt
+          echo "$count" > counter_daily.txt
+
+      # Step 5: Commit the updated counter_daily.txt and push the change to the repository
       - name: Commit and push changes
         run: |
-          git add counter.txt
+          # Stage the updated counter_daily.txt file
+          git add counter_daily.txt
+          # Commit the change with a message showing the new counter value
           git commit -m "Increment counter to $count"
+          # Push the commit back to the main branch
           git push
         env:
+          # Provide GitHub Actions with a token to authenticate the push
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
