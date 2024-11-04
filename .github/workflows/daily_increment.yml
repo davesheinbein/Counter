@@ -27,7 +27,7 @@ jobs:
           # git config user.name "github-actions[bot]"
           # git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "davesheinbein"
-          git config user.email "davesheinbeindev@gmail.com"
+          git config user.email "davidsheinbeindev@gmail.com"
 
       # Step 3: Pull the latest changes from the main branch to keep the repo up-to-date
       - name: Pull latest changes
